@@ -2,13 +2,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
-  <artifactId>crm-enterprise</artifactId>
-  <version>0.1.0</version>
-  <name>crm-enterprise</name>
-  <description>Enterprise CRM - Spring Boot + MongoDB</description>
+  <artifactId>crm-enterprise-wired</artifactId>
+  <version>1.0.0</version>
+  <name>crm-enterprise-wired</name>
+  <description>Enterprise CRM Wired - Spring Boot + MongoDB + S3 + Microsoft Graph</description>
   <properties>
     <java.version>17</java.version>
     <spring-boot.version>3.3.5</spring-boot.version>
+    <aws.sdk.version>2.25.66</aws.sdk.version>
+    <graph.version>5.57.0</graph.version>
+    <azure.identity.version>1.12.0</azure.identity.version>
   </properties>
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -33,26 +36,31 @@
       <artifactId>spring-boot-starter-data-mongodb</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-mail</artifactId>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
+    <!-- AWS SDK v2 for S3 + presigner -->
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>s3</artifactId>
+      <version>${aws.sdk.version}</version>
+    </dependency>
+
+    <!-- Microsoft Graph & Azure Identity for OAuth -->
+    <dependency>
+      <groupId>com.microsoft.graph</groupId>
+      <artifactId>microsoft-graph</artifactId>
+      <version>${graph.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-api</artifactId>
-      <version>0.11.5</version>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-identity</artifactId>
+      <version>${azure.identity.version}</version>
     </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-impl</artifactId>
-      <version>0.11.5</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt-jackson</artifactId>
-      <version>0.11.5</version>
-      <scope>runtime</scope>
-    </dependency>
+
+    <!-- CSV/Excel -->
     <dependency>
       <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId>
@@ -63,11 +71,7 @@
       <artifactId>poi-ooxml</artifactId>
       <version>5.2.5</version>
     </dependency>
-    <dependency>
-      <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.3.0</version>
-    </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

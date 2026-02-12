@@ -1,10 +1,5 @@
 package com.example.crm.service;
 
-import com.example.crm.dto.AuthRequest; import com.example.crm.dto.AuthResponse; import com.example.crm.model.User; import com.example.crm.security.JwtUtil;
-import org.springframework.security.authentication.AuthenticationManager; import org.springframework.security.authentication.BadCredentialsException; import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; import org.springframework.stereotype.Service; import java.util.HashMap;
+import com.example.crm.dto.AuthRequest; import com.example.crm.dto.AuthResponse; import com.example.crm.model.User; import com.example.crm.security.JwtUtil; import org.springframework.security.authentication.AuthenticationManager; import org.springframework.security.authentication.BadCredentialsException; import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; import org.springframework.stereotype.Service; import java.util.HashMap;
 
-@Service public class AuthService {
-  private final AuthenticationManager authManager; private final JwtUtil jwt; private final UserService users;
-  public AuthService(AuthenticationManager a, JwtUtil j, UserService u){this.authManager=a; this.jwt=j; this.users=u;}
-  public AuthResponse login(AuthRequest req){ try{ authManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())); } catch(Exception e){ throw new BadCredentialsException("Invalid credentials"); } User user = users.findByEmailOrThrow(req.getEmail()); var claims = new HashMap<String,Object>(); claims.put("roles", user.getRoles()); String token = jwt.generateToken(user.getEmail(), claims); return new AuthResponse(token, user.getEmail(), user.getFullName(), user.getRoles()); }
-}
+@Service public class AuthService { private final AuthenticationManager am; private final JwtUtil jwt; private final UserService users; public AuthService(AuthenticationManager a, JwtUtil j, UserService u){this.am=a; this.jwt=j; this.users=u;} public AuthResponse login(AuthRequest req){ try{ am.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())); } catch(Exception e){ throw new BadCredentialsException("Invalid credentials"); } User user = users.findByEmailOrThrow(req.getEmail()); var claims = new HashMap<String,Object>(); claims.put("roles", user.getRoles()); String token = jwt.generateToken(user.getEmail(), claims); return new AuthResponse(token, user.getEmail(), user.getFullName(), user.getRoles()); } }

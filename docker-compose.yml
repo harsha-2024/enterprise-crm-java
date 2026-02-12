@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:6
+    restart: always
+    ports: ["27017:27017"]
+    volumes: ["mongo_data:/data/db"]
+  backend:
+    build: ./backend
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/crm
+      - JWT_SECRET=dev-secret-please-change
+      - JWT_EXP=86400
+      - AWS_REGION=eu-west-1
+      - ATTACHMENTS_BUCKET=crm-dev-attachments
+      - MSFT_TENANT_ID=
+      - MSFT_CLIENT_ID=
+      - MSFT_CLIENT_SECRET=
+      - OAUTH_REDIRECT_URI=http://localhost:5173/oauth/callback
+      - MSFT_SCOPES=offline_access openid profile User.Read Mail.Send Calendars.ReadWrite
+      - KMS_DATA_KEY=local-dev-32byte-secret-local-dev
+    ports: ["8080:8080"]
+    depends_on: [mongo]
+  frontend:
+    build: ./frontend
+    environment:
+      - VITE_API_BASE=http://localhost:8080
+    ports: ["5173:80"]
+    depends_on: [backend]
+volumes:
+  mongo_data:

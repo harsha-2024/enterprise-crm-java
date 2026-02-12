@@ -1,0 +1,5 @@
+package com.example.crm.controller;
+
+import com.example.crm.model.TenantSettings; import com.example.crm.repository.TenantSettingsRepository; import com.example.crm.tenant.TenantContext; import org.springframework.http.ResponseEntity; import org.springframework.security.access.prepost.PreAuthorize; import org.springframework.web.bind.annotation.*; import java.util.Optional;
+
+@RestController @RequestMapping("/api/admin/tenant-settings") public class AdminTenantController { private final TenantSettingsRepository repo; public AdminTenantController(TenantSettingsRepository r){this.repo=r;} @GetMapping public ResponseEntity<TenantSettings> get(){ Optional<TenantSettings> s = repo.findByTenantId(TenantContext.getTenantId()); return s.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build()); } @PutMapping public TenantSettings put(@RequestBody TenantSettings ts){ ts.setTenantId(TenantContext.getTenantId()); return repo.findByTenantId(ts.getTenantId()).map(x->{ ts.setId(x.getId()); return repo.save(ts);} ).orElseGet(() -> repo.save(ts)); } }

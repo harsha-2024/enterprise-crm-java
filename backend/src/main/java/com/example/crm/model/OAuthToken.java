@@ -1,0 +1,5 @@
+package com.example.crm.model;
+
+import org.springframework.data.annotation.Id; import org.springframework.data.mongodb.core.mapping.Document; import java.time.Instant;
+
+@Document("oauth_tokens") public class OAuthToken { @Id private String id; private String tenantId; private String userEmail; private String provider; private String encryptedRefreshToken; private Instant createdAt = Instant.now(); public String getId(){return id;} public void setId(String id){this.id=id;} public String getTenantId(){return tenantId;} public void setTenantId(String t){this.tenantId=t;} public String getUserEmail(){return userEmail;} public void setUserEmail(String u){this.userEmail=u;} public String getProvider(){return provider;} public void setProvider(String p){this.provider=p;} public String getEncryptedRefreshToken(){return encryptedRefreshToken;} public void setEncryptedRefreshToken(String v){this.encryptedRefreshToken=v;} public Instant getCreatedAt(){return createdAt;} public void setCreatedAt(Instant v){this.createdAt=v;} }
