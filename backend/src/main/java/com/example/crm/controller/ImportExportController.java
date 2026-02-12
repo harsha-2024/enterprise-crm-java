@@ -1,0 +1,5 @@
+package com.example.crm.controller;
+
+import com.example.crm.service.ImportExportService; import org.springframework.http.HttpHeaders; import org.springframework.http.MediaType; import org.springframework.http.ResponseEntity; import org.springframework.web.bind.annotation.*; import org.springframework.web.multipart.MultipartFile;
+
+@RestController @RequestMapping("/api/import-export") public class ImportExportController { private final ImportExportService svc; public ImportExportController(ImportExportService s){this.svc=s;} @PostMapping("/contacts/csv") public ResponseEntity<String> importContactsCsv(@RequestParam MultipartFile file) throws Exception { int count = svc.importContactsCsv(file.getInputStream()); return ResponseEntity.ok("Imported: "+count); } @GetMapping("/contacts/csv") public ResponseEntity<byte[]> exportContactsCsv() throws Exception { byte[] data = svc.exportContactsCsv(); return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=contacts.csv").contentType(MediaType.TEXT_PLAIN).body(data);} }

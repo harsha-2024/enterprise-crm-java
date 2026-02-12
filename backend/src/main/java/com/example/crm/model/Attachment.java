@@ -1,0 +1,20 @@
+package com.example.crm.model;
+
+import org.springframework.data.annotation.Id; import org.springframework.data.mongodb.core.mapping.Document; import java.time.Instant;
+
+@Document("attachments")
+public class Attachment {
+  @Id private String id; private String tenantId; private String entityType; private String entityId; private String provider; private String bucket; private String objectKey; private String url; private String contentType; private long size; private String checksum; private Instant createdAt = Instant.now();
+  public String getId(){return id;} public void setId(String id){this.id=id;}
+  public String getTenantId(){return tenantId;} public void setTenantId(String t){this.tenantId=t;}
+  public String getEntityType(){return entityType;} public void setEntityType(String v){this.entityType=v;}
+  public String getEntityId(){return entityId;} public void setEntityId(String v){this.entityId=v;}
+  public String getProvider(){return provider;} public void setProvider(String v){this.provider=v;}
+  public String getBucket(){return bucket;} public void setBucket(String v){this.bucket=v;}
+  public String getObjectKey(){return objectKey;} public void setObjectKey(String v){this.objectKey=v;}
+  public String getUrl(){return url;} public void setUrl(String v){this.url=v;}
+  public String getContentType(){return contentType;} public void setContentType(String v){this.contentType=v;}
+  public long getSize(){return size;} public void setSize(long v){this.size=v;}
+  public String getChecksum(){return checksum;} public void setChecksum(String v){this.checksum=v;}
+  public Instant getCreatedAt(){return createdAt;} public void setCreatedAt(Instant v){this.createdAt=v;}
+}
